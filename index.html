@@ -113,6 +113,7 @@
         <div class="row">
           <button class="btn" id="copyBtn">좌표 복사</button>
           <button class="btn" id="copyRevBtn">경도,위도</button>
+          <button class="btn" id="copyCodeBtn">코드 복사</button>
         </div>
         <div id="dist"></div>
         <div id="addr"></div>
@@ -178,6 +179,10 @@ window.MAP_KEYS = {
   coordEl.onclick = function(){ var l=last(); if(l) copy(fmt(l.lat)+", "+fmt(l.lng)); };
   document.getElementById('copyBtn').onclick = function(){ var l=last(); if(l) copy(fmt(l.lat)+", "+fmt(l.lng)); };
   document.getElementById('copyRevBtn').onclick = function(){ var l=last(); if(l) copy(fmt(l.lng)+", "+fmt(l.lat)); };
+  document.getElementById('copyCodeBtn').onclick = function(){
+    var l=last();
+    if(l) copy('{"latitude": '+l.lat+', "longitude": '+l.lng+'}');
+  };
   document.getElementById('collapse').onclick = function(){ document.getElementById('readout').classList.toggle('collapsed'); };
 
   /* ---------- 거리(하버사인) ---------- */
