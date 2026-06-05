@@ -69,8 +69,12 @@ window.MAP_KEYS = {
 1. **레포 Settings → Pages → Source = "GitHub Actions"**
 2. **레포 Settings → Secrets and variables → Actions** 에 시크릿 추가:
    - `KAKAO_KEY` (필수) · `NAVER_KEY` · `GOOGLE_KEY` · `VWORLD_KEY` · `PROXY_URL` (선택)
-3. `main` 브랜치에 push → 자동 빌드·배포 → `https://hwkim3330.github.io/map/`
+3. `main` 브랜치에 push → 자동 빌드·배포 → `https://hwkim3330.github.io/GPSPicker/`
 4. 그 주소를 **카카오/네이버/VWorld 콘솔 도메인에 등록** (안 하면 지도 안 뜸)
+
+> 404가 뜨면 주소를 먼저 확인하세요.
+> - 저장소 이름이 `username.github.io`가 아니면: `https://username.github.io/저장소명/`
+> - 저장소 이름이 `username.github.io`면: `https://username.github.io/`
 
 > 시크릿을 안 넣은 키는 빈 값으로 처리되어 해당 탭만 "키 필요" 안내가 뜹니다(앱은 정상).
 > 다시 강조: Actions 주입은 git 히스토리에서만 가립니다. 배포 페이지엔 보이므로 **도메인 등록이 본질**입니다.
@@ -111,7 +115,7 @@ python3 -m http.server 8000   # 또는: npx serve .
 
 ## 디렉터리
 ```
-map/
+GPSPicker/
 ├── index.html                  # 웹앱(단일 파일)
 ├── .github/workflows/deploy.yml# Pages 배포 + 키 주입
 ├── worker/                     # 카카오 REST 프록시(Cloudflare Worker)

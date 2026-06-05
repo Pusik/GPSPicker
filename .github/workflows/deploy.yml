@@ -1,0 +1,59 @@
+name: Deploy static site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inject runtime keys into index.html
+        env:
+          NAVER_KEY: ${{ secrets.NAVER_KEY }}
+          KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
+          VWORLD_KEY: ${{ secrets.VWORLD_KEY }}
+          PROXY_URL: ${{ secrets.PROXY_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f index.html ]; then
+            sed -i "s|__NAVER_KEY__|${NAVER_KEY:-}|g" index.html
+            sed -i "s|__KAKAO_KEY__|${KAKAO_KEY:-}|g" index.html
+            sed -i "s|__GOOGLE_KEY__|${GOOGLE_KEY:-}|g" index.html
+            sed -i "s|__VWORLD_KEY__|${VWORLD_KEY:-}|g" index.html
+            sed -i "s|__PROXY_URL__|${PROXY_URL:-}|g" index.html
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
