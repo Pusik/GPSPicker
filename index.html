@@ -200,6 +200,7 @@ window.MAP_KEYS = {
     if(state.mode==="pin"){ state.points=[{lat:lat,lng:lng}]; }
     else { state.points.push({lat:lat,lng:lng}); }
     refresh();
+    copy('{"latitude": '+lat+', "longitude": '+lng+'}');
     reverseGeocode(lat,lng);
   }
   function refresh(){
